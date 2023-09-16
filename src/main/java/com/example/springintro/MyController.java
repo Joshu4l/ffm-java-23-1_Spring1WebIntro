@@ -86,11 +86,21 @@ public class MyController {
 
     }
 
-    //@DeleteMapping("/messages/{id}")
-    //public String deleteMessageById(@PathVariable String id) {
+    @DeleteMapping("/messages/{id}")
+    public String deleteMessageById(@PathVariable String id) {
         /*
-
+            Dynamic Delete operation based on a path variable specified in the target URL:
+            http://localhost:8080/api/messages/{id}
          */
-    //}
+        Optional<Message> messageToBeDeleted = messages.stream()
+                .filter(message -> message.getId().equals(id)).findFirst();
+        if (messageToBeDeleted.isPresent()) {
+
+            messages.remove(messageToBeDeleted.get());
+            return messageToBeDeleted.get() + " successfully deleted.";
+        } else {
+            return "Message with id " + id + " was not found";
+        }
+    }
 
 }
